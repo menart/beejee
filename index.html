@@ -8,27 +8,112 @@
     <title>BeeJee - Task</title>
     <link rel="stylesheet" href="css/bootstrap.css">
     <link rel="stylesheet" href="css/style.css">
+    <script src="js/jquery.js"></script>
     <script src="js/main.js"></script>
 </head>
 <body>
 
-<div class="head row">
-    <div class="head_order-box col-lg-4">
-        <span>Сортировка</span>
-        <select id="head_order-box_select">
-            <option value="user">Имя пользователя</option>
-            <option value="email">e-mail</option>
-            <option value="status">статус</option>
-        </select>
+<div class="container">
+
+    <div class="head row">
+        <div class="col-md-3">
+            <div class="head_order-box head_div">
+                <div class="wrap">
+                    <div class="wrap_block">
+                        <span>Сортировка</span>
+                        <select id="head_order-box_select">
+                            <option value="id">По порядку</option>
+                            <option value="user">Имя пользователя</option>
+                            <option value="email">e-mail</option>
+                            <option value="status">статус</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="head_count_page head_div">
+                <div class="wrap">
+                    <div class="wrap_block">
+                        <span>стр</span>
+                        <select id="head_count-page_select">
+                            <option value="3">3</option>
+                            <option value="5">5</option>
+                            <option value="10">10</option>
+                            <option value="25">25</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="wrap">
+                <div class="wrap_block">
+                    <a href="#" id="update">Обновить</a> &nbsp;
+                    <a href="#" id="add_task">Добавить</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="head_user head_div">
+                <div class="wrap">
+                    <div class="wrap_block">
+                        <a href="#" id="auth">Войти</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
-    <div class="head_user col-lg-offset-4 col-lg-4">
-        Пользователь
+
+    <div class="table">
+        <div class="table_data col-lg-12">
+
+        </div>
+    </div>
+
+    <div class="bottom">
+        <div class="bottom_wrap">
+        <ul class="pagination">
+        </ul>
+        </div>
+    </div>
+
+</div>
+<div class="popup hide" id="change_popup">
+    <fieldset class="form-group">
+        <label for="task_name">Имя</label>
+        <input type="text" class="form-control" id="task_name" name="task_name" placeholder="Введите имя">
+    </fieldset>
+    <fieldset class="form-group">
+        <label for="task_email">e-mail</label>
+        <input type="text" class="form-control" id="task_email" name="task_emai" placeholder="Введите e-mail">
+    </fieldset>
+    <fieldset class="form-group">
+        <label for="task_context">Задача</label>
+        <textarea class="form-control" id="task_context" name="task_context" placeholder="Введите текст задания"></textarea>
+    </fieldset>
+    <div class="popup_btn">
+        <a href="#" class="popup_btn_ok btn btn-outline-primary" id="change_popup_ok">OK</a>
+        <a href="#" class="popup_btn_cancel btn btn-outline-primary" id="change_popup_cancel">Отмена</a>
     </div>
 </div>
 
-<div class="table">
-    <div class="table_data col-lg-12">
-
+<div class="popup hide" id="auth_popup">
+    <fieldset class="form-group">
+        <label for="user_name">Имя</label>
+        <input type="text" class="form-control" id="user_name" name="user_name" placeholder="Введите логин">
+    </fieldset>
+    <fieldset class="form-group">
+        <label for="user_pwd">Пароль</label>
+        <input type="password" class="form-control" id="user_pwd" name="user_pwd" placeholder="Введите пароль">
+    </fieldset>
+    <div class="popup_btn">
+        <a href="#" class="popup_btn_ok btn btn-outline-primary" id="auth_popup_ok">OK</a>
+        <a href="#" class="popup_btn_cancel btn btn-outline-primary" id="auth_popup_cancel">Отмена</a>
     </div>
 </div>
 
