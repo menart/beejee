@@ -15,8 +15,13 @@ $order = $_POST['order'];
 if (!isset($order))
     $order = 'user';
 
+$direction = $_POST['direction'];
+if (!isset($direction) || ($direction != 'asc' && $direction != 'desc'))
+    $direction = 'asc';
+
 $counttask = $_POST['counttask'];
 if (!isset($counttask) || !is_numeric($counttask) || $counttask < 1)
     $counttask = 3;
 
-echo json_encode($view->getListTask($page, $counttask, $order, isset($_SESSION['admin'])?$_SESSION['admin']:0));
+echo json_encode($view->getListTask($page, $counttask, $order, $direction,
+    isset($_SESSION['admin'])?$_SESSION['admin']:0));

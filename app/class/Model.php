@@ -26,10 +26,11 @@ class Model
      * @param int $page
      * @param int $countTask
      * @param string $order
+     * @param string $direction
      * @return array
      * @throws ReflectionException
      */
-    public function getList(string $className, int $page, int $countTask, string $order): array
+    public function getList(string $className, int $page, int $countTask, string $order, string $direction): array
     {
 
         $fields = array();
@@ -46,7 +47,7 @@ class Model
 
         $result = $this->db->select($fields,
             't' . $className,
-            $order,
+            $order . ' ' . $direction,
             $page * $countTask,
             $countTask);
 
@@ -73,9 +74,11 @@ class Model
         return $this->db->getCount('t' . $class);
     }
 
+
     /**
      * @param DBObject $obj
-     * @return int
+     * @return array
+     * @throws ReflectionException
      */
     public function insertValue(DBObject $obj): array
     {
@@ -95,7 +98,7 @@ class Model
             }
         }
 
-        return $this->db->insert($fields,'t'.get_class($obj), $values);
+        return $this->db->insert($fields, 't' . get_class($obj), $values);
     }
 
     /**
@@ -121,7 +124,7 @@ class Model
             }
         }
 
-        return $this->db->update($fields,'t'.get_class($obj), $values, $obj->id);
+        return $this->db->update($fields, 't' . get_class($obj), $values, $obj->id);
     }
 
     /**
@@ -131,6 +134,6 @@ class Model
      */
     public function deleteValue($className, $id)
     {
-        return $this->db->delete($id,'t'.$className);
+        return $this->db->delete($id, 't' . $className);
     }
 }

@@ -1,8 +1,14 @@
 <?php
 
 
+/**
+ * Class View
+ */
 class View
 {
+    /**
+     * @var Model
+     */
     private Model $model;
 
     /**
@@ -15,23 +21,29 @@ class View
     }
 
     /**
-     * @return Model
+     * @param int $page
+     * @param int $countTask
+     * @param string $order
+     * @param string $direction
+     * @param int $admin
+     * @return MSG
+     * @throws ReflectionException
      */
-    public function getListTask(int $page, int $counttask, string $order, int $admin):MSG
+    public function getListTask(int $page, int $countTask, string $order, string $direction, int $admin): MSG
     {
 
         $listtask = new ListTask();
         $listtask->count = (int)$this->model->GetCount('Task');
-        $listtask->countPage = ceil($listtask->count/$counttask);
+        $listtask->countPage = ceil($listtask->count / $countTask);
 
-        if($page >= $listtask->countPage)
-            $page = $listtask->countPage-1;
+        if ($page >= $listtask->countPage)
+            $page = $listtask->countPage - 1;
 
         $listtask->page = $page;
 
         $listtask->admin = $admin;
 
-        $listtask->list = $this->model->getList('Task',$page, $counttask, $order);
+        $listtask->list = $this->model->getList('Task', $page, $countTask, $order, $direction);
         return $listtask;
     }
 }

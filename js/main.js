@@ -4,11 +4,14 @@ const CHANGE_URL = APP_URL + 'updatetask.php';
 const AUTH_URL = APP_URL + 'auth.php';
 let admin = 0;
 
-function getData(page, counttask, order) {
+function getData(page, counttask, order, direct) {
     $.ajax({
         type: 'POST',
         url: DATA_URL,
-        data: 'page=' + (page - 1) + '&counttask=' + counttask + '&order=' + order,
+        data: 'page=' + (page - 1) +
+            '&counttask=' + counttask +
+            '&order=' + order +
+            '&direction=' + direct,
         async: true,
         success: createTable
     })
@@ -47,7 +50,7 @@ function changeTask() {
 }
 
 function init() {
-    getData(0, 3, 'id');
+    getData(0, 3, 'id', 'asc');
     $('#add_task').bind('click', function (event) {
         event.preventDefault();
         $('#change_popup').data('action', 'insert');
@@ -67,7 +70,8 @@ function init() {
         event.preventDefault();
         getData($('.page-item.active').text(),
             $('select#head_count-page_select').val(),
-            $('select#head_order-box_select').val());
+            $('select#head_order-box_select').val(),
+            $('select#head_order-box_direct_select').val());
     });
 
     $('#auth').click(function (event) {
@@ -106,12 +110,14 @@ function createTable(data) {
         event.preventDefault();
         getData($(this).text(),
             $('select#head_count-page_select').val(),
-            $('select#head_order-box_select').val());
+            $('select#head_order-box_select').val(),
+            $('select#head_order-box_direct_select').val());
     });
 
     let tableData = $('.table_data');
     tableData.html('');
     tableData.html(data.list.reduce(function f(acc, item) {
+        console.log(item.status);
         return acc + '<div class="task col-lg-12" id="task' + item.id + '">' +
             '<div class="task_title row">' +
             '<div class="col-lg-' + (admin == 1 ? '3' : '4') + ' task_user">Пользователь: <span class="data">' +
@@ -120,10 +126,11 @@ function createTable(data) {
             item.email + '</span></div>' +
             '<div class="col-lg-3 task_status">' +
             (admin == 1 ? '<a href="#" class="task_finish task_action" data-id="' + item.id +
-                '" title="' + (item.status == 0 ? 'Выполнить' : 'Отменить выполнение') + '">' : '') +
-            (item.status == 0 ? 'Нев' : 'В') + 'ыполнено' + (admin == 1 ? '</a>' : '') +
-
-            '<span class="data hide">' + item.status + '</span> </div>' +
+                '" title="' + (item.status & 1 == 0 ? 'Выполнить' : 'Отменить выполнение') + '">' : '') +
+            (item.status & 1 ? 'В' : 'Нев' ) + 'ыполнено' +
+            (item.status & 2 ? ' / Отредактировано администратором' : '') +
+            (admin == 1 ? '</a>' : '') +
+            '<span class="data hide">' + (item.status & 1) + '</span> </div>' +
             (admin == 1 ? '<div class="col-lg-3">' +
                 '<a href="#" class="task_change task_action" data-id="' + item.id + '" title="Изменить">Изменить</a> ' +
                 '<a href="#" class="task_delete task_action" data-id="' + item.id + '"title="Удалить">Удалить</a>' +
@@ -188,13 +195,15 @@ function sendChange(action, task_id, user, email, context, status) {
             if (data.status == "-1") {
                 getData($('.page-item.active').text(),
                     $('select#head_count-page_select').val(),
-                    $('select#head_order-box_select').val());
+                    $('select#head_order-box_select').val(),
+                    $('select#head_order-box_direct_select').val());
                 authform();
             }
             if (data.status == "0")
                 getData($('.page-item.active').text(),
                     $('select#head_count-page_select').val(),
-                    $('select#head_order-box_select').val());
+                    $('select#head_order-box_select').val(),
+                    $('select#head_order-box_direct_select').val());
             alert(data.retmsg);
         }
     });
@@ -222,5 +231,6 @@ function auth(action) {
     })
     getData($('.page-item.active').text(),
         $('select#head_count-page_select').val(),
-        $('select#head_order-box_select').val());
+        $('select#head_order-box_select').val(),
+        $('select#head_order-box_direct_select').val());
 }

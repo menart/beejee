@@ -78,6 +78,7 @@ class Controller
         return $this->makeActionEcho($result, $task);
     }
 
+
     /**
      * @param int $id
      * @param string $user
@@ -85,6 +86,7 @@ class Controller
      * @param string $context
      * @param int $status
      * @return ActionEcho
+     * @throws ReflectionException
      */
     public function updateTask(int $id, string $user, string $email, string $context, int $status)
     {
